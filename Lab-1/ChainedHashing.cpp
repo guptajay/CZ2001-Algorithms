@@ -16,7 +16,7 @@ class Hash
 	void insertItem(int x); 
 
 	// deletes a key from hash table 
-	void deleteItem(int key); 
+	void deleteItem(int key);       // Do we need this?
 
 	// hash function to map values to key 
 	int hashFunction(int x) { 
@@ -26,17 +26,29 @@ class Hash
 	void displayHash(); 
 }; 
 
-Hash::Hash(int b) 
+Hash::Hash(int b)         //Constructor Implementation
 { 
 	this->BUCKET = b; 
-	table = new list<int>[BUCKET]; 
+	table = new list<int>[BUCKET]; // list of size BUCKET
 } 
 
 void Hash::insertItem(int key) 
 { 
-	int index = hashFunction(key); 
-	table[index].push_back(key); 
+	int index = hashFunction(key);       // Generate index of Hash table to store the key in
+	table[index].push_back(key);         //Store the key in the generated index
 } 
+
+/*push_back()
+This effectively increases the container size by one, which causes an automatic reallocation of the allocated
+storage space if -and only if- the new vector size 
+surpasses the current vector capacity./*
+
+
+
+
+
+
+
 
 void Hash::deleteItem(int key) 
 { 
@@ -55,6 +67,12 @@ for (i = table[index].begin();
 if (i != table[index].end()) 
 	table[index].erase(i); 
 } 
+
+
+
+
+
+
 
 // function to display hash table 
 void Hash::displayHash() { 
