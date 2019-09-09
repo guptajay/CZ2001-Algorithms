@@ -41,13 +41,7 @@ void Hash::insertItem(int key)
 /*push_back()
 This effectively increases the container size by one, which causes an automatic reallocation of the allocated
 storage space if -and only if- the new vector size 
-surpasses the current vector capacity./*
-
-
-
-
-
-
+surpasses the current vector capacity. */
 
 
 void Hash::deleteItem(int key) 
