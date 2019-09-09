@@ -1,89 +1,162 @@
-// CPP program to implement hashing with chaining 
-#include<iostream> 
-#include <list> 
-using namespace std; 
+package ChainedHashing;
 
-class Hash 
+// Java program to demonstrate implementation of our 
+// own hash table with chaining for collision detection 
+import java.util.ArrayList; 
+
+// Class to represent entire hash table 
+class map<K, V> 
 { 
-	int BUCKET; // No. of buckets 
+	// bucketArray is used to store array of chains 
+	private ArrayList<HashNode<K, V>> bucketArray; 
 
-	// Pointer to an array containing buckets 
-	list<int> *table; 
-  public: 
-	Hash(int V); // Constructor 
+	// Current capacity of array list 
+	private int numBuckets; 
 
-	// inserts a key into hash table 
-	void insertItem(int x); 
+	// Current size of array list 
+	private int size; 
 
-	// deletes a key from hash table 
-	void deleteItem(int key); 
+	// Constructor (Initializes capacity, size and 
+	// empty chains. 
+	public map() 
+	{ 
+		bucketArray = new ArrayList<>(); 
+		numBuckets = 10; 
+		size = 0; 
 
-	// hash function to map values to key 
-	int hashFunction(int x) { 
-		return (x % BUCKET); 
+		// Create empty chains 
+		for (int i = 0; i < numBuckets; i++) 
+			bucketArray.add(null); 
 	} 
 
-	void displayHash(); 
-}; 
+	public int size() { return size; } 
+	public boolean isEmpty() { return size() == 0; } 
 
-Hash::Hash(int b) 
-{ 
-	this->BUCKET = b; 
-	table = new list<int>[BUCKET]; 
-} 
+	// This implements hash function to find index 
+	// for a key 
+	private int getBucketIndex(K key) 
+	{ 
+		int hashCode = key.hashCode(); 
+		int index = hashCode % numBuckets; 
+		return index; 
+	} 
 
-void Hash::insertItem(int key) 
-{ 
-	int index = hashFunction(key); 
-	table[index].push_back(key); 
-} 
+	// Method to remove a given key 
+	public V remove(K key) 
+	{ 
+		// Apply hash function to find index for given key 
+		int bucketIndex = getBucketIndex(key); 
 
-void Hash::deleteItem(int key) 
-{ 
-// get the hash index of key 
-int index = hashFunction(key); 
+		// Get head of chain 
+		HashNode<K, V> head = bucketArray.get(bucketIndex); 
 
-// find the key in (inex)th list 
-list <int> :: iterator i; 
-for (i = table[index].begin(); 
-		i != table[index].end(); i++) { 
-	if (*i == key) 
-	break; 
-} 
+		// Search for key in its chain 
+		HashNode<K, V> prev = null; 
+		while (head != null) 
+		{ 
+			// If Key found 
+			if (head.key.equals(key)) 
+				break; 
 
-// if key is found in hash table, remove it 
-if (i != table[index].end()) 
-	table[index].erase(i); 
-} 
+			// Else keep moving in chain 
+			prev = head; 
+			head = head.next; 
+		} 
 
-// function to display hash table 
-void Hash::displayHash() { 
-for (int i = 0; i < BUCKET; i++) { 
-	cout << i; 
-	for (auto x : table[i]) 
-	cout << " --> " << x; 
-	cout << endl; 
-} 
-} 
+		// If key was not there 
+		if (head == null) 
+			return null; 
 
-// Driver program 
-int main() 
-{ 
-// array that contains keys to be mapped 
-int a[] = {15, 11, 27, 8, 12}; 
-int n = sizeof(a)/sizeof(a[0]); 
+		// Reduce size 
+		size--; 
 
-// insert the keys into the hash table 
-Hash h(7); // 7 is count of buckets in 
-			// hash table 
-for (int i = 0; i < n; i++) 
-	h.insertItem(a[i]); 
+		// Remove key 
+		if (prev != null) 
+			prev.next = head.next; 
+		else
+			bucketArray.set(bucketIndex, head.next); 
 
-// delete 12 from hash table 
-h.deleteItem(12); 
+		return head.value; 
+	} 
 
-// display the Hash table 
-h.displayHash(); 
+	// Returns value for a key 
+	public V get(K key) 
+	{ 
+		// Find head of chain for given key 
+		int bucketIndex = getBucketIndex(key); 
+		HashNode<K, V> head = bucketArray.get(bucketIndex); 
 
-return 0; 
+		// Search key in chain 
+		while (head != null) 
+		{ 
+			if (head.key.equals(key)) 
+				return head.value; 
+			head = head.next; 
+		} 
+
+		// If key not found 
+		return null; 
+	} 
+
+	// Adds a key value pair to hash 
+	public void add(K key, V value) 
+	{ 
+		// Find head of chain for given key 
+		int bucketIndex = getBucketIndex(key); 
+		HashNode<K, V> head = bucketArray.get(bucketIndex); 
+
+		// Check if key is already present 
+		while (head != null) 
+		{ 
+			if (head.key.equals(key)) 
+			{ 
+				head.value = value; 
+				return; 
+			} 
+			head = head.next; 
+		} 
+
+		// Insert key in chain 
+		size++; 
+		head = bucketArray.get(bucketIndex); 
+		HashNode<K, V> newNode = new HashNode<K, V>(key, value); 
+		newNode.next = head; 
+		bucketArray.set(bucketIndex, newNode); 
+
+		// If load factor goes beyond threshold, then 
+		// double hash table size 
+		if ((1.0*size)/numBuckets >= 0.7) 
+		{ 
+			ArrayList<HashNode<K, V>> temp = bucketArray; 
+			bucketArray = new ArrayList<>(); 
+			numBuckets = 2 * numBuckets; 
+			size = 0; 
+			for (int i = 0; i < numBuckets; i++) 
+				bucketArray.add(null); 
+
+			for (HashNode<K, V> headNode : temp) 
+			{ 
+				while (headNode != null) 
+				{ 
+					add(headNode.key, headNode.value); 
+					headNode = headNode.next; 
+				} 
+			} 
+		} 
+	} 
+
+	// Driver method to test Map class 
+	public static void main(String[] args) 
+	{ 
+		map<String, Integer>map = new map<>(); 
+		map.add("this",1 ); 
+		map.add("coder",2 ); 
+		map.add("this",4 ); 
+		map.add("hi",5 ); 
+		System.out.println(map.size()); 
+		System.out.println(map.remove("this")); 
+		System.out.println(map.remove("this")); 
+		System.out.println(map.size()); 
+		System.out.println(map.isEmpty()); 
+	} 
 } 
