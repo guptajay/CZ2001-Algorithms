@@ -4,15 +4,15 @@
 // School of Computer Science and Engineering
 // Nanyang Technological University
 
-#include<stdio.h>
-#include<stdlib.h>
-#include<time.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 // Define number of slots = h
 // number of elements = n
 // load factor = n/h
 
-#define h 7
+#define h 31
 
 struct node
 {
@@ -21,6 +21,64 @@ struct node
 };
 
 struct node *slot[h];
+
+void insert(int value);
+void print();
+void search(int item);
+
+int main()
+{
+    clock_t start_1, start_2, end_1, end_2;
+
+    // Program Starting
+    start_1 = clock();
+    int i, j, searchItem;
+
+    // initializing the whole array to NULL
+    for (i = 0; i < h; i++)
+        slot[i] = NULL;
+
+    // Manual Insertion
+    /*
+    insert(7);
+    insert(0);
+    insert(3);
+    insert(10);
+    insert(4);
+    insert(21);
+    */
+
+    int data = 10;
+
+    for (j = 0; j < 22; j++)
+    {
+        insert(data);
+        data = data + 10;
+    }
+
+    print();
+
+    end_1 = clock();
+    // Program Ending
+
+    printf("Please enter a number to search: ");
+    scanf("%d", &searchItem);
+
+    // Program Starting
+    start_2 = clock();
+
+    search(searchItem);
+
+    end_2 = clock();
+    // Program Ending
+
+    double time_taken = (((double)(end_1 - start_1)) / CLOCKS_PER_SEC) + (((double)(end_2 - start_2)) / CLOCKS_PER_SEC); // in seconds
+
+    printf("CPU Time = %f", time_taken);
+    printf("\n");
+
+    return 0;
+}
 
 void insert(int value)
 {
@@ -34,7 +92,7 @@ void insert(int value)
     int key = value % h;
 
     // Checking if slot[key] is empty
-    if(slot[key] == NULL)
+    if (slot[key] == NULL)
         // if empty, create a new node to the corresponding slot
         slot[key] = newNode;
 
@@ -44,7 +102,7 @@ void insert(int value)
         // Add the node at the end of slot of the corresponding slot
         struct node *temp = slot[key];
         // iterate to the last node in the linked list
-        while(temp->next)
+        while (temp->next)
         {
             temp = temp->next;
         }
@@ -57,21 +115,21 @@ void print()
 {
     int i;
 
-    for(i = 0; i < h; i++)
+    for (i = 0; i < h; i++)
     {
         struct node *temp = slot[i];
         printf("Slot %d -> ", i);
-        while(temp != NULL)
+        while (temp != NULL)
         {
-            printf("%d -> ",temp->data);
+            printf("%d -> ", temp->data);
             temp = temp->next;
         }
         printf("END\n");
     }
 }
 
-void search(int item) {
-
+void search(int item)
+{
     // Calculating Key
     int key = item % h;
     int no_of_key_comparisons = 0;
@@ -79,11 +137,12 @@ void search(int item) {
 
     struct node *temp1 = slot[key];
 
-    while(temp1 != NULL) {
-
+    while (temp1 != NULL)
+    {
+        // track number of key comparisons
         no_of_key_comparisons++;
-
-        if (temp1->data == item) {
+        if (temp1->data == item)
+        {
             flag = 1;
             printf("\n%d is found in Slot %d!", item, key);
             printf("\nNumber of Key Comparisons Made = %d\n", no_of_key_comparisons);
@@ -92,49 +151,10 @@ void search(int item) {
         temp1 = temp1->next;
     }
 
-    if(flag == 0) {
-        printf("\n%d Not Found!\n");
+    if (flag == 0)
+    {
+        printf("\n%d Not Found!\n", item);
         printf("\nNumber of Key Comparisons Made = %d\n", no_of_key_comparisons);
         return;
     }
-}
-
-int main()
-{
-    clock_t t1, t2;
-
-    // Program Starting
-    t1 = clock();
-    int i;
-
-    // initializing the whole array to NULL
-    for(i = 0; i < h; i++)
-        slot[i] = NULL;
-
-    insert(7);
-    insert(0);
-    insert(3);
-    insert(10);
-    insert(4);
-    insert(5);
-
-    t1 = clock() - t1;
-    // Program Ending
-
-    // Exclude printing time in CPU Time
-    print();
-
-    // Program Starting
-    t2 = clock();
-
-    search(10);
-
-    t2 = clock() - t2;
-    // Program Ending
-
-    double time_taken = ((double)t1)/CLOCKS_PER_SEC + ((double)t2)/CLOCKS_PER_SEC; // in seconds
-
-    printf("CPU Time = %f (Insertion Time + Search Time) (Printing Time Excluded)\n", time_taken);
-
-    return 0;
 }
