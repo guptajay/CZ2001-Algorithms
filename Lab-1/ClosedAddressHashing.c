@@ -134,7 +134,7 @@ int main()
 
     double time_taken = ((double)t1)/CLOCKS_PER_SEC + ((double)t2)/CLOCKS_PER_SEC; // in seconds
 
-    printf("CPU Time = %f\n", time_taken);
+    printf("CPU Time = %f (Insertion Time + Search Time) (Printing Time Excluded)\n", time_taken);
 
     return 0;
 }
