@@ -2,7 +2,7 @@
 // Jay Gupta, Ritwik Kanodia, Swathi Kumar Vembu, Aryaman Shaan, Soham Dandapath
 // CZ2001 Algorithms, Lab 2, Group SS3
 // School of Computer Science and Engineering
-// Nanyang Technological University
+// Nanyang Technological University, Singapore
 
 #include <stdio.h>
 #include <stdlib.h>
