@@ -74,7 +74,7 @@ int main()
 
     double time_taken = (((double)(end_1 - start_1)) / CLOCKS_PER_SEC) + (((double)(end_2 - start_2)) / CLOCKS_PER_SEC); // in seconds
 
-    printf("CPU Time = %f", time_taken);
+    printf("CPU Time = %fs", time_taken);
     printf("\n");
 
     return 0;
