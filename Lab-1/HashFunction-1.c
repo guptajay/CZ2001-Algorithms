@@ -56,7 +56,7 @@ int main()
 
     selectSize();
 
-    printf("\nNumber of Slots = %d [PRIME]\n", h);
+    printf("\nNumber of Slots = %d\n", h);
 
     float loadFactor;
     printf("Please enter the LOAD FACTOR (e.g. 0.20, 0.50, ...): ");
