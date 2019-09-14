@@ -12,6 +12,8 @@
 // number of elements = n
 // load factor = n/h
 
+// HASH FUNCTION 1 ==> KEY = ITEM % H [DIVISION METHOD]
+
 struct node
 {
     int data;
@@ -22,10 +24,11 @@ void selectSize()
 {
     int ch;
 
-    printf("Input 1 for a hash table of a PRIME number size, Input 2 for a hash table of a NON-PRIME number size\n ");
+    printf("Input '1' for a Hash Table of a PRIME size, Input '2' for a Hash Table of a NON-PRIME size: ");
+
     while (1)
     {
-        scanf("%d ", &ch);
+        scanf("%d", &ch);
         if (ch == 1)
         {
 #define h 37
@@ -37,7 +40,7 @@ void selectSize()
             break;
         }
         else
-            printf("Input a valid number\n");
+            printf("Input a Valid Number\n");
     }
 }
 
@@ -50,7 +53,9 @@ void search(int item);
 int main()
 {
     clock_t start_1, start_2, end_1, end_2;
+
     selectSize();
+
     printf("\nNumber of Slots = %d [PRIME]\n", h);
 
     float loadFactor;
@@ -69,7 +74,7 @@ int main()
     for (i = 0; i < h; i++)
         slot[i] = NULL;
 
-    int data, lower = 10000000, upper = 99999999;
+    int data, lower = 50000000, upper = 99999999;
 
     for (j = 0; j < numberOfElements; j++)
     {
