@@ -7,17 +7,17 @@ Nanyang Technological University
 
 ### Header Files
 
-..* <stdio.h>
-..* <stdlib.h>
-..* <time.h>
-..* <math.h>
+* <stdio.h>
+* <stdlib.h>
+* <time.h>
+* <math.h>
 
 ## Strucuture
 
 * **Hash Function 1 - Division Method**
-1. Hash-1_Prime.c - Prime Slot Size
-2. Hash-1_NonPrime.c - Non-Prime Slot Size
+... 1. Hash-1_Prime.c - Prime Slot Size
+... 2. Hash-1_NonPrime.c - Non-Prime Slot Size
 
 * **Hash Function 2 - Multiplicative Congruential Method**
-1. Hash-2_Prime.c - Prime Slot Size
-2. Hash-2_NonPrime.c - Non-Prime Slot Size
+... 1. Hash-2_Prime.c - Prime Slot Size
+... 2. Hash-2_NonPrime.c - Non-Prime Slot Size
